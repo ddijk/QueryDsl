@@ -17,5 +17,16 @@
             </h:dataTable>
         </h:form>
     </h:body>
+    
+    <h:form>
+        
+         naam <h:inputText value="#{riderController.name}"/>
+         <h:commandButton value="Find" actionListener="#{riderController.findByName()}"/>
+         id:<h:outputText value="#{riderController.rider.id}"/>
+         <br></br>
+         naam:<h:outputText value="#{riderController.rider.name}"/>
+         
+                                                         
+    </h:form>
 </html>
 

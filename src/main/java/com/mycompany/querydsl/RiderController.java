@@ -5,6 +5,7 @@
  */
 package com.mycompany.querydsl;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Named;
@@ -28,6 +29,8 @@ public class RiderController {
     @PersistenceContext
     EntityManager em;
 
+    Rider rider;
+
     /**
      * Creates a new instance of RiderController
      */
@@ -50,12 +53,29 @@ public class RiderController {
 
     public List<Rider> getRiders() {
 
-        return em.createQuery("Select r from Rider r", Rider.class).getResultList();
+        //  return em.createQuery("Select r from Rider r", Rider.class).getResultList();
+        JPAQuery query = new JPAQuery(em);
+        QRider rider = QRider.rider;
 
+        return query.from(rider).fetchResults().getResults();
     }
 
     public void setRiders(List<Rider> riders) {
         this.riders = riders;
+    }
+
+    public void findByName() {
+
+        JPAQuery<Rider> query = new JPAQuery(em);
+        QRider qrider = QRider.rider;
+
+        final JPAQuery<Rider> where = query.from(qrider).where(qrider.name.eq(name)); //fetchResults().getResults();
+
+        rider = where.fetchFirst();
+    }
+
+    public Rider getRider() {
+        return rider;
     }
 
 }
